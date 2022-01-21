@@ -22,7 +22,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 const char* vertexShaderPath = "../../shaderTexture.vs";
 const char* fragmentShaderPath = "../../shaderTexture.fs";
-const char* objPath = "../../xx.obj";
+const char* objPath = "../../cube.obj";
 
 int main()
 {
@@ -90,34 +90,12 @@ int main()
     auto result = objLoader.loadOBJ(objPath, obj_vertices, obj_uvs, obj_normals);
     if (!result) {
         printf("Error: Load obj file failed\n");
+        return 0;
     }
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     // position, normal, texture
-    float vertices[] = {
-        -0.3f, -0.3f, 0.0f,   0.0f, 0.0f, 1.0f,    0.0f, 0.0f, // left  
-         0.3f, -0.3f, 0.0f,   0.0f, 0.2f, 1.0f,    1.0f, 0.0f, // right 
-         0.0f,  0.3f, 0.0f,   0.0f, -0.2f, 1.0f,   0.5f, 1.0f,// top   
-         0.0f,  0.3f, 0.0f,   0.0f, 0.0f, 1.0f,    0.0f, 0.0f, // left  
-         0.3f,  0.3f, 0.0f,   0.0f, 0.2f, 1.0f,    1.0f, 0.0f, // right 
-         0.0f,  0.6f, 0.0f,   0.0f, -0.2f, 1.0f,   0.5f, 1.0f,// top   
-    };
-
-    float matrix[16] =
-    {
-        1,0,0,0,
-        0,1,0,0,
-        0,0,1,0,
-        0,0,0,1
-    };
-    glm::mat4 unitMatrix = glm::make_mat4(matrix);
-    glm::vec3 lightPos = glm::vec3(0.0f, 0.0f, 5.0f);
-    glm::vec3 lightIntensity = glm::vec3(0.1f, 0.1f, 0.1f);
-    glm::vec3 Ia = glm::vec3(0.1f, 0.1f, 0.1f);
-    glm::vec3 ka = glm::vec3(0.1f, 0.1f, 0.1f);
-    glm::vec3 kd = glm::vec3(0.1f, 0.1f, 0.1f);
-    glm::vec3 ks = glm::vec3(0.1f, 0.1f, 0.1f);
 
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
@@ -126,7 +104,7 @@ int main()
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, obj_vertices.size() * sizeof(glm::vec3), &obj_vertices[0], GL_STATIC_DRAW);
 
     // Position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
