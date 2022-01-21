@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "Shader.cpp"
+#include "ObjLoader.cpp"
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -21,6 +22,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 const char* vertexShaderPath = "../../shaderTexture.vs";
 const char* fragmentShaderPath = "../../shaderTexture.fs";
+const char* objPath = "../../xx.obj";
 
 int main()
 {
@@ -80,6 +82,15 @@ int main()
 
 
     Shader shader(vertexShaderPath, fragmentShaderPath);
+
+    std::vector<glm::vec3> obj_vertices;
+    std::vector<glm::vec2> obj_uvs;
+    std::vector<glm::vec3> obj_normals;
+    ObjLoader objLoader;
+    auto result = objLoader.loadOBJ(objPath, obj_vertices, obj_uvs, obj_normals);
+    if (!result) {
+        printf("Error: Load obj file failed\n");
+    }
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------

@@ -15,6 +15,7 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image.h)
 
 add_executable(main
 	       glad.c
+	       ObjLoader.cpp
 	       Shader.cpp
                main.cpp)
 
